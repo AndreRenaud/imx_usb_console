@@ -1,0 +1,4 @@
+write_file  0x09000000 /home/andre/work/snappermx6/tests/sram_temperature/init.bin
+verify_file 0x09000000 /home/andre/work/snappermx6/tests/sram_temperature/init.bin
+jump 0x00900000
+

@@ -1,0 +1,36 @@
+# Initialise the DDR
+include /home/andre/work/snappermx6/scripts/ddr_init.script
+
+# Load the U-Boot image that we're going to execute
+write_file 0x17800000 /home/andre/work/u-boot/u-boot.bin
+#verify_file 0x17800000 /home/andre/work/u-boot/u-boot.bin
+#write_file 0x17800000 /home/andre/work/snappermx6/buildroot/output/build/uboot-master/u-boot.bin
+
+# If we want to program u-boot, then load another copy for
+# us to program into SPI
+write_file 0x12000000 /home/andre/work/u-boot/u-boot.imx
+#write_file 0x12000000 /home/andre/work/snappermx6/buildroot/output/images/u-boot.imx
+verify_file 0x12000000 /home/andre/work/u-boot/u-boot.imx
+# Can now program u-boot with:
+#   sf probe && sf erase 0x0 0x70000 && sf write 0x12000000 0x400 0x6fc00
+
+#write_file 0x12000000 /home/andre/imx6q-snappermx6-salmon.dtb
+
+# For testing Linux
+# Load the Linux kernel
+#write_file 0x12000000 /scratch/git_trees/linux-mx6.git/arch/arm/boot/zImage
+# write_file 0x12000000 /home/andre/work/linux-git/arch/arm/boot/zImage
+# Load the dtb
+#write_file 0x13000000 /scratch/git_trees/linux-mx6.git/arch/arm/boot/dts/imx6q-snappermx6-salmon.dtb
+#write_file 0x13000000 /home/andre/work/linux-git/arch/arm/boot/dts/imx6q-snappermx6-salmon.dtb
+# Load the inird
+#write_file 0x14000000 /home/andre/work/snappermx6/initrd
+# Can now boot with setenv bootargs console=ttymxc0,115200 root=/dev/ram&&bootz 0x12000000 0x14000000 0x13000000
+#
+# Can save it to NAND with
+# nand erase 0 0x01000000 && nand write 0x12000000 0 0x01000000
+# And re-load it with
+# nand read 0x120000000 0 0x01000000
+
+# Execute U-Boot
+jump 0x17800000
