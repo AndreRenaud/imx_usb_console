@@ -14,7 +14,7 @@ BASE_DIR  = $(shell readlink -f $(BASE))
 
 # What arch are we building for
 ifeq "$(ARCH)" ""
-	ARCH=arm
+	ARCH=$(shell uname -m)
 endif
 
 # Package builder and development filesystem
